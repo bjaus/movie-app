@@ -21,6 +21,22 @@ export class TMDBClient {
 		this.fetch = config.fetch;
 	}
 
+	async getUpcomingMovies(language: string = 'en', page: number = 1): Promise<Array<Movie>> {
+		const data = await this.request<MovieListResponse>('movie/upcoming', {
+			method: 'GET',
+			params: { language, page }
+		});
+		return data.results;
+	}
+
+	async getTopRateMovies(language: string = 'en', page: number = 1): Promise<Array<Movie>> {
+		const data = await this.request<MovieListResponse>('movie/top_rated', {
+			method: 'GET',
+			params: { language, page }
+		});
+		return data.results;
+	}
+
 	private async request<T>(
 		endpoint: string,
 		{ method = 'GET', body = null, headers = {}, params = {} }: RequestOptions = {}
@@ -33,6 +49,7 @@ export class TMDBClient {
 			body: body ? JSON.stringify(body) : null,
 			headers: {
 				...headers,
+				Accept: 'application/json',
 				'Content-Type': 'application/json',
 				Authorization: `Bearer ${this.token}`
 			}
@@ -43,17 +60,9 @@ export class TMDBClient {
 
 		return response.json() as Promise<T>;
 	}
-
-	async getUpcomingMovies(language: string = 'en', page: number = 1): Promise<Array<Movie>> {
-		const data = await this.request<MovieList>('movie/upcoming', {
-			method: 'GET',
-			params: { language, page }
-		});
-		return data.results;
-	}
 }
 
-export interface MovieList {
+export interface MovieListResponse {
 	results: Array<Movie>;
 }
 

@@ -1,5 +1,5 @@
 import type { PageServerLoad } from './$types';
-import { TMDBClient, MovieList } from '$lib/clients/tmdb';
+import { TMDBClient, MovieListResponse } from '$lib/clients/tmdb';
 
 export const load: PageServerLoad = async ({ fetch, locals }) => {
 	return await fetchUpcomingMovies(fetch, locals.accessToken, true);
@@ -355,5 +355,5 @@ const fetchUpcomingMovies = async (fetch, token: string, fake = true) => {
 				vote_count: 23848
 			}
 		]
-	} as MovieList;
+	} as MovieListResponse;
 };
