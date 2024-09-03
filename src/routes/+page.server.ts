@@ -1,33 +1,18 @@
-import type { PageServerLoad } from "./$types";
+import type { PageServerLoad } from './$types';
+import { TMDBClient, MovieList } from '$lib/clients/tmdb';
 
 export const load: PageServerLoad = async ({ fetch, locals }) => {
-	const data = await fetchUpcomingMovies(fetch, locals.accessToken, true)
-	console.log(data)
-	return data
-}
+	return await fetchUpcomingMovies(fetch, locals.accessToken, true);
+};
 
 const fetchUpcomingMovies = async (fetch, token: string, fake = true) => {
 	if (!fake) {
-		let results = []
-		try {
-			const resp = await fetch(`https://api.themoviedb.org/3/movie/upcoming?language=en&page=1`, {
-				method: 'GET',
-				headers: {
-					Accept: 'application/json',
-					Authorization: `Bearer ${token}`,
-				},
-			})
-			const data = await resp.json()
-			results = data.results;
-		} catch (error) {
-			console.error(error);
-		}
-		return results
+		const tmdb = new TMDBClient({ token, fetch });
+		const results = await tmdb.getUpcomingMovies();
+		return { results };
 	}
 
 	return {
-		dates: { maximum: '2024-09-25', minimum: '2024-09-04' },
-		page: 1,
 		results: [
 			{
 				adult: false,
@@ -36,7 +21,8 @@ const fetchUpcomingMovies = async (fetch, token: string, fake = true) => {
 				id: 1226578,
 				original_language: 'en',
 				original_title: 'Longlegs',
-				overview: 'FBI Agent Lee Harker is assigned to an unsolved serial killer case that takes an unexpected turn, revealing evidence of the occult. Harker discovers a personal connection to the killer and must stop him before he strikes again.',
+				overview:
+					'FBI Agent Lee Harker is assigned to an unsolved serial killer case that takes an unexpected turn, revealing evidence of the occult. Harker discovers a personal connection to the killer and must stop him before he strikes again.',
 				popularity: 1515.397,
 				poster_path: '/5aj8vVGFwGVbQQs26ywhg4Zxk2L.jpg',
 				release_date: '2024-07-10',
@@ -52,7 +38,8 @@ const fetchUpcomingMovies = async (fetch, token: string, fake = true) => {
 				id: 1079091,
 				original_language: 'en',
 				original_title: 'It Ends with Us',
-				overview: "When a woman's first love suddenly reenters her life, her relationship with a charming, but abusive neurosurgeon is upended, and she realizes she must learn to rely on her own strength to make an impossible choice for her future.",
+				overview:
+					"When a woman's first love suddenly reenters her life, her relationship with a charming, but abusive neurosurgeon is upended, and she realizes she must learn to rely on her own strength to make an impossible choice for her future.",
 				popularity: 1312.259,
 				poster_path: '/AjV6jFJ2YFIluYo4GQf13AA1tqu.jpg',
 				release_date: '2024-08-07',
@@ -68,7 +55,8 @@ const fetchUpcomingMovies = async (fetch, token: string, fake = true) => {
 				id: 1160018,
 				original_language: 'hi',
 				original_title: 'Kill',
-				overview: 'When an army commando finds out his true love is engaged against her will, he boards a New Dehli-bound train in a daring quest to derail the arranged marriage. But when a gang of knife-wielding thieves begin to terrorize innocent passengers on his train, the commando takes them on himself in a death-defying kill-spree to save those around him — turning what should have been a typical commute into an adrenaline-fueled thrill ride.',
+				overview:
+					'When an army commando finds out his true love is engaged against her will, he boards a New Dehli-bound train in a daring quest to derail the arranged marriage. But when a gang of knife-wielding thieves begin to terrorize innocent passengers on his train, the commando takes them on himself in a death-defying kill-spree to save those around him — turning what should have been a typical commute into an adrenaline-fueled thrill ride.',
 				popularity: 1261.768,
 				poster_path: '/m2zXTuNPkywdYLyWlVyJZW2QOJH.jpg',
 				release_date: '2024-07-03',
@@ -84,7 +72,8 @@ const fetchUpcomingMovies = async (fetch, token: string, fake = true) => {
 				id: 945961,
 				original_language: 'en',
 				original_title: 'Alien: Romulus',
-				overview: 'While scavenging the deep ends of a derelict space station, a group of young space colonizers come face to face with the most terrifying life form in the universe.',
+				overview:
+					'While scavenging the deep ends of a derelict space station, a group of young space colonizers come face to face with the most terrifying life form in the universe.',
 				popularity: 1189.05,
 				poster_path: '/b33nnKl1GSFbao4l3fZDDqsMx0F.jpg',
 				release_date: '2024-08-13',
@@ -100,7 +89,8 @@ const fetchUpcomingMovies = async (fetch, token: string, fake = true) => {
 				id: 1129598,
 				original_language: 'en',
 				original_title: 'Prey',
-				overview: 'A young couple is compelled to leave their Christian missionary station in the Kalahari Desert after being threatened with death by an extremist militant gang. After crashing their aircraft they must battle man and beast for their lives.',
+				overview:
+					'A young couple is compelled to leave their Christian missionary station in the Kalahari Desert after being threatened with death by an extremist militant gang. After crashing their aircraft they must battle man and beast for their lives.',
 				popularity: 1032.108,
 				poster_path: '/5wAlO5zZ3IyzLBAf7cp5WejalmG.jpg',
 				release_date: '2024-03-15',
@@ -116,7 +106,8 @@ const fetchUpcomingMovies = async (fetch, token: string, fake = true) => {
 				id: 588648,
 				original_language: 'zh',
 				original_title: 'Dragonkeeper',
-				overview: 'Set in Han Imperial China, the plot follows the adventures of enslaved girl Ping with ancient dragon Long Danzi. Dragons had been banished from the kingdom. Ping, an orphan, finds one of the last remaining dragon eggs. Palace guards force Ping to run away in order to return the dragon egg to the ocean and save all dragons from extinction. Ping discovers that she is a true Dragonkeeper.',
+				overview:
+					'Set in Han Imperial China, the plot follows the adventures of enslaved girl Ping with ancient dragon Long Danzi. Dragons had been banished from the kingdom. Ping, an orphan, finds one of the last remaining dragon eggs. Palace guards force Ping to run away in order to return the dragon egg to the ocean and save all dragons from extinction. Ping discovers that she is a true Dragonkeeper.',
 				popularity: 857.435,
 				poster_path: '/ggZGnJLzO3BTu7ysuuIzou3Oex5.jpg',
 				release_date: '2024-04-11',
@@ -132,7 +123,8 @@ const fetchUpcomingMovies = async (fetch, token: string, fake = true) => {
 				id: 1066262,
 				original_language: 'en',
 				original_title: 'The Convert',
-				overview: 'Munro, a soldier turned lay preacher, comes to New Zealand to minister to the first British colonists, but he is converted by the powerful chief Maianui to serve a different purpose.',
+				overview:
+					'Munro, a soldier turned lay preacher, comes to New Zealand to minister to the first British colonists, but he is converted by the powerful chief Maianui to serve a different purpose.',
 				popularity: 760.964,
 				poster_path: '/e5ZqqPlhKstzB4geibpZh38w7Pq.jpg',
 				release_date: '2024-03-14',
@@ -148,7 +140,8 @@ const fetchUpcomingMovies = async (fetch, token: string, fake = true) => {
 				id: 1216191,
 				original_language: 'en',
 				original_title: 'Oddity',
-				overview: 'After the brutal murder of her twin sister, Darcy goes after those responsible by using haunted items as her tools for revenge.',
+				overview:
+					'After the brutal murder of her twin sister, Darcy goes after those responsible by using haunted items as her tools for revenge.',
 				popularity: 610.97,
 				poster_path: '/uln9Efc2vzDOl0Fue2BPs8l1WO7.jpg',
 				release_date: '2024-07-19',
@@ -164,7 +157,8 @@ const fetchUpcomingMovies = async (fetch, token: string, fake = true) => {
 				id: 1032823,
 				original_language: 'en',
 				original_title: 'Trap',
-				overview: "A father and teen daughter attend a pop concert, where they realize they're at the center of a dark and sinister event.",
+				overview:
+					"A father and teen daughter attend a pop concert, where they realize they're at the center of a dark and sinister event.",
 				popularity: 557.533,
 				poster_path: '/jwoaKYVqPgYemFpaANL941EF94R.jpg',
 				release_date: '2024-07-31',
@@ -180,7 +174,8 @@ const fetchUpcomingMovies = async (fetch, token: string, fake = true) => {
 				id: 804616,
 				original_language: 'en',
 				original_title: 'Something in the Water',
-				overview: 'A group of five friends must fight for their lives in open water after a dream wedding turns into a nightmare.',
+				overview:
+					'A group of five friends must fight for their lives in open water after a dream wedding turns into a nightmare.',
 				popularity: 530.032,
 				poster_path: '/1iWGGxHEwswZGvPSoMZlLFf0PNq.jpg',
 				release_date: '2024-03-22',
@@ -196,7 +191,8 @@ const fetchUpcomingMovies = async (fetch, token: string, fake = true) => {
 				id: 1225377,
 				original_language: 'en',
 				original_title: 'The Mouse Trap',
-				overview: "It's Alex's 21st Birthday, but she's stuck at the amusement arcade on a late shift so her friends decide to surprise her, but a masked killer dressed as Mickey Mouse decides to play a game of his own with them which she must survive.",
+				overview:
+					"It's Alex's 21st Birthday, but she's stuck at the amusement arcade on a late shift so her friends decide to surprise her, but a masked killer dressed as Mickey Mouse decides to play a game of his own with them which she must survive.",
 				popularity: 499.267,
 				poster_path: '/3ovFaFeojLFIl5ClqhtgYMDS8sE.jpg',
 				release_date: '2024-08-23',
@@ -212,7 +208,8 @@ const fetchUpcomingMovies = async (fetch, token: string, fake = true) => {
 				id: 917496,
 				original_language: 'en',
 				original_title: 'Beetlejuice Beetlejuice',
-				overview: "After a family tragedy, three generations of the Deetz family return home to Winter River. Still haunted by Beetlejuice, Lydia's life is turned upside down when her teenage daughter, Astrid, accidentally opens the portal to the Afterlife.",
+				overview:
+					"After a family tragedy, three generations of the Deetz family return home to Winter River. Still haunted by Beetlejuice, Lydia's life is turned upside down when her teenage daughter, Astrid, accidentally opens the portal to the Afterlife.",
 				popularity: 494.984,
 				poster_path: '/kKgQzkUCnQmeTPkyIwHly2t6ZFI.jpg',
 				release_date: '2024-09-04',
@@ -228,7 +225,8 @@ const fetchUpcomingMovies = async (fetch, token: string, fake = true) => {
 				id: 1051891,
 				original_language: 'en',
 				original_title: 'Thelma',
-				overview: 'When 93-year-old Thelma Post gets duped by a phone scammer pretending to be her grandson, she sets out on a treacherous quest across the city to reclaim what was taken from her.',
+				overview:
+					'When 93-year-old Thelma Post gets duped by a phone scammer pretending to be her grandson, she sets out on a treacherous quest across the city to reclaim what was taken from her.',
 				popularity: 460.022,
 				poster_path: '/rUcuageYgv9SsJoWuc0seRWG6JC.jpg',
 				release_date: '2024-06-21',
@@ -244,7 +242,8 @@ const fetchUpcomingMovies = async (fetch, token: string, fake = true) => {
 				id: 1029955,
 				original_language: 'en',
 				original_title: 'Kinds of Kindness',
-				overview: 'A triptych fable following a man without choice who tries to take control of his own life; a policeman who is alarmed that his wife who was missing-at-sea has returned and seems a different person; and a woman determined to find a specific someone with a special ability, who is destined to become a prodigious spiritual leader.',
+				overview:
+					'A triptych fable following a man without choice who tries to take control of his own life; a policeman who is alarmed that his wife who was missing-at-sea has returned and seems a different person; and a woman determined to find a specific someone with a special ability, who is destined to become a prodigious spiritual leader.',
 				popularity: 459.53,
 				poster_path: '/8mmpltkcG9areafsQHXaURedno3.jpg',
 				release_date: '2024-05-30',
@@ -260,7 +259,8 @@ const fetchUpcomingMovies = async (fetch, token: string, fake = true) => {
 				id: 1096342,
 				original_language: 'en',
 				original_title: 'Beautiful Wedding',
-				overview: 'Abby and Travis wake after a crazy night in Vegas as accidental newlyweds! With the mob on their heels, they flee to Mexico for a wild, weird honeymoon—but are they in for another disaster?',
+				overview:
+					'Abby and Travis wake after a crazy night in Vegas as accidental newlyweds! With the mob on their heels, they flee to Mexico for a wild, weird honeymoon—but are they in for another disaster?',
 				popularity: 454.529,
 				poster_path: '/6214Uk9CZZcIibI84o5DEtbhfyk.jpg',
 				release_date: '2024-01-24',
@@ -276,7 +276,8 @@ const fetchUpcomingMovies = async (fetch, token: string, fake = true) => {
 				id: 826510,
 				original_language: 'en',
 				original_title: 'Harold and the Purple Crayon',
-				overview: "Inside of his book, adventurous Harold can make anything come to life simply by drawing it. After he grows up and draws himself off the book's pages and into the physical world, Harold finds he has a lot to learn about real life.",
+				overview:
+					"Inside of his book, adventurous Harold can make anything come to life simply by drawing it. After he grows up and draws himself off the book's pages and into the physical world, Harold finds he has a lot to learn about real life.",
 				popularity: 430.486,
 				poster_path: '/dEsuQOZwdaFAVL26RjgjwGl9j7m.jpg',
 				release_date: '2024-07-31',
@@ -292,7 +293,8 @@ const fetchUpcomingMovies = async (fetch, token: string, fake = true) => {
 				id: 938614,
 				original_language: 'en',
 				original_title: 'Late Night with the Devil',
-				overview: "A live broadcast of a late-night talk show in 1977 goes horribly wrong, unleashing evil into the nation's living rooms.",
+				overview:
+					"A live broadcast of a late-night talk show in 1977 goes horribly wrong, unleashing evil into the nation's living rooms.",
 				popularity: 269.976,
 				poster_path: '/jGY62i0D0zitaGz4Ema7vTEYIXw.jpg',
 				release_date: '2024-03-19',
@@ -308,7 +310,8 @@ const fetchUpcomingMovies = async (fetch, token: string, fake = true) => {
 				id: 955555,
 				original_language: 'ko',
 				original_title: '범죄도시 3',
-				overview: 'Detective Ma Seok-do changes his affiliation from the Geumcheon Police Station to the Metropolitan Investigation Team, in order to eradicate Japanese gangsters who enter Korea to commit heinous crimes.',
+				overview:
+					'Detective Ma Seok-do changes his affiliation from the Geumcheon Police Station to the Metropolitan Investigation Team, in order to eradicate Japanese gangsters who enter Korea to commit heinous crimes.',
 				popularity: 229.551,
 				poster_path: '/lW6IHrtaATxDKYVYoQGU5sh0OVm.jpg',
 				release_date: '2023-05-31',
@@ -324,7 +327,8 @@ const fetchUpcomingMovies = async (fetch, token: string, fake = true) => {
 				id: 120,
 				original_language: 'en',
 				original_title: 'The Lord of the Rings: The Fellowship of the Ring',
-				overview: 'Young hobbit Frodo Baggins, after inheriting a mysterious ring from his uncle Bilbo, must leave his home in order to keep it from falling into the hands of its evil creator. Along the way, a fellowship is formed to protect the ringbearer and make sure that the ring arrives at its final destination: Mt. Doom, the only place where it can be destroyed.',
+				overview:
+					'Young hobbit Frodo Baggins, after inheriting a mysterious ring from his uncle Bilbo, must leave his home in order to keep it from falling into the hands of its evil creator. Along the way, a fellowship is formed to protect the ringbearer and make sure that the ring arrives at its final destination: Mt. Doom, the only place where it can be destroyed.',
 				popularity: 216.356,
 				poster_path: '/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg',
 				release_date: '2001-12-18',
@@ -340,7 +344,8 @@ const fetchUpcomingMovies = async (fetch, token: string, fake = true) => {
 				id: 122,
 				original_language: 'en',
 				original_title: 'The Lord of the Rings: The Return of the King',
-				overview: 'As armies mass for a final battle that will decide the fate of the world--and powerful, ancient forces of Light and Dark compete to determine the outcome--one member of the Fellowship of the Ring is revealed as the noble heir to the throne of the Kings of Men. Yet, the sole hope for triumph over evil lies with a brave hobbit, Frodo, who, accompanied by his loyal friend Sam and the hideous, wretched Gollum, ventures deep into the very dark heart of Mordor on his seemingly impossible quest to destroy the Ring of Power.​',
+				overview:
+					'As armies mass for a final battle that will decide the fate of the world--and powerful, ancient forces of Light and Dark compete to determine the outcome--one member of the Fellowship of the Ring is revealed as the noble heir to the throne of the Kings of Men. Yet, the sole hope for triumph over evil lies with a brave hobbit, Frodo, who, accompanied by his loyal friend Sam and the hideous, wretched Gollum, ventures deep into the very dark heart of Mordor on his seemingly impossible quest to destroy the Ring of Power.​',
 				popularity: 199.902,
 				poster_path: '/rCzpDGLbOoPwLjy3OAm5NUPOTrC.jpg',
 				release_date: '2003-12-17',
@@ -349,8 +354,6 @@ const fetchUpcomingMovies = async (fetch, token: string, fake = true) => {
 				vote_average: 8.481,
 				vote_count: 23848
 			}
-		],
-		total_pages: 58,
-		total_results: 1146
-	}
-}
+		]
+	} as MovieList;
+};
