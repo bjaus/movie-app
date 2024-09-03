@@ -6,6 +6,7 @@
 	// @ts-expect-error: svelte-carousel doesn't provide type declarations module.
 	import Carousel from 'svelte-carousel';
 	import Card from '$lib/components/Card.svelte';
+	import { goto } from '$app/navigation';
 
 	export let data: PageServerData;
 	let upcoming = data.upcoming;
@@ -79,7 +80,17 @@
 					</div>
 				</div>
 				{#each upcoming as movie}
-					<div class="relative w-full h-[70vh] cursor-pointer">
+					<div
+						class="relative w-full h-[70vh] cursor-pointer"
+						role="button"
+						tabindex="0"
+						on:click={() => goto(`/movies/${movie.id}`)}
+						on:keydown={(event) => {
+							if (event.key === 'Enter' || event.key === ' ') {
+								goto(`/movies/${movie.id}`);
+							}
+						}}
+					>
 						<img src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`} alt="backdrop" />
 						<div
 							class="absolute inset-0 bg-gradient-to-t from-black to to-transparent rounded"
@@ -156,7 +167,17 @@
 						</div>
 					</div>
 					{#each upcoming.slice(1) as movie}
-						<div class="px-2 cursor-pointer relative">
+						<div
+							class="px-2 cursor-pointer relative"
+							role="button"
+							tabindex="0"
+							on:click={() => goto(`/movies/${movie.id}`)}
+							on:keydown={(event) => {
+								if (event.key === 'Enter' || event.key === ' ') {
+									goto(`/movies/${movie.id}`);
+								}
+							}}
+						>
 							<h1 class="absolute z-40 bottom-0 font-extrabold">{movie.title}</h1>
 							<div
 								class="absolute z-30 inset-0 bg-gradient-to-t opacity-65 from-black to-transparent rounded"

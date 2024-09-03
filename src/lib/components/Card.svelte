@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import placeholder from '$lib/assets/placeholder.jpeg';
 	import type { Movie } from '$lib/clients/tmdb';
 
@@ -13,6 +14,14 @@
 
 <div
 	class="bg-gray-800 text-white rounded-lg shadow-md overflow-hidden max-w-[17rem] cursor-pointer transition-all"
+	role="button"
+	tabindex="0"
+	on:click={() => goto(`/movies/${movie.id}`)}
+	on:keydown={(event) => {
+		if (event.key === 'Enter' || event.key === ' ') {
+			goto(`/movies/${movie.id}`);
+		}
+	}}
 >
 	<img
 		class="w-full object-cover"
