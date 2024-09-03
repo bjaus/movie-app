@@ -26,7 +26,7 @@
 		</h2>
 	</div>
 	<p class="text-yellow-400 flex items-center mt-2 md:text-[15px] text-[13px]">
-		Votes: {movie.vote_count}
+		Rating: {movie.vote_average.toFixed(2)}
 	</p>
 	<p class="text-gray-400">Lanuage: {movie.original_language}</p>
 	<p class="text-gray-400">Release: {movie.release_date}</p>

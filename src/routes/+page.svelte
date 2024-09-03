@@ -11,9 +11,8 @@
 	let upcoming = data.upcoming;
 	let topRated = data.topRated;
 
-	onMount(() => {
-		updateParticlesToShow();
-	});
+	let topCarousel: Carousel;
+	let bottomCarousel: Carousel;
 
 	let particlesToShow = 4;
 
@@ -28,21 +27,9 @@
 		}
 	}
 
-	let topCarousel: Carousel;
-	function handleNextTopCarousel() {
-		topCarousel.goToNext();
-	}
-	function handlePrevTopCarousel() {
-		topCarousel.goToPrev();
-	}
-
-	let bottomCarousel: Carousel;
-	function handleNextBottomCarousel() {
-		bottomCarousel.goToNext();
-	}
-	function handlePrevBottomCarousel() {
-		bottomCarousel.goToPrev();
-	}
+	onMount(() => {
+		updateParticlesToShow();
+	});
 </script>
 
 {#if browser}
@@ -51,12 +38,12 @@
 			<Carousel bind:this={topCarousel} autoplay={true} autoplayDuration={5000} dots={false}>
 				<div
 					slot="prev"
-					on:click={handlePrevTopCarousel}
 					role="button"
 					tabindex="0"
+					on:click={() => topCarousel.goToPrev()}
 					on:keydown={(event) => {
 						if (event.key === 'Enter' || event.key === ' ') {
-							handlePrevTopCarousel();
+							topCarousel.goToPrev();
 						}
 					}}
 				>
@@ -72,12 +59,12 @@
 				</div>
 				<div
 					slot="next"
-					on:click={handleNextTopCarousel}
 					role="button"
 					tabindex="0"
+					on:click={() => topCarousel.goToNext()}
 					on:keydown={(event) => {
 						if (event.key === 'Enter' || event.key === ' ') {
-							handleNextTopCarousel();
+							topCarousel.goToNext();
 						}
 					}}
 				>
@@ -114,7 +101,7 @@
 									Votes: {movie.vote_count}
 								</p>
 								<p class="lg:text-xl md:text-lg text-zinc-400 line-clamp-3">
-									Rating: {movie.vote_average}
+									Rating: {movie.vote_average.toFixed(2)}
 								</p>
 							</div>
 						</div>
@@ -128,12 +115,12 @@
 				<Carousel bind:this={bottomCarousel} dots={false} {particlesToShow}>
 					<div
 						slot="prev"
-						on:click={handlePrevBottomCarousel}
+						on:click={() => bottomCarousel.goToPrev()}
 						role="button"
 						tabindex="0"
 						on:keydown={(event) => {
 							if (event.key === 'Enter' || event.key === ' ') {
-								handlePrevBottomCarousel();
+								bottomCarousel.goToPrev();
 							}
 						}}
 					>
@@ -149,12 +136,12 @@
 					</div>
 					<div
 						slot="next"
-						on:click={handleNextBottomCarousel}
+						on:click={() => bottomCarousel.goToNext()}
 						role="button"
 						tabindex="0"
 						on:keydown={(event) => {
 							if (event.key === 'Enter' || event.key === ' ') {
-								handleNextBottomCarousel();
+								bottomCarousel.goToNext();
 							}
 						}}
 					>
