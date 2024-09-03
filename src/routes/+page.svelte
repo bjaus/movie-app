@@ -8,7 +8,8 @@
 	import Card from '$lib/components/Card.svelte';
 
 	export let data: PageServerData;
-	let movies = data.results;
+	let upcoming = data.upcoming;
+	let topRated = data.topRated;
 
 	onMount(() => {
 		updateParticlesToShow();
@@ -90,7 +91,7 @@
 						/>
 					</div>
 				</div>
-				{#each movies as movie}
+				{#each upcoming as movie}
 					<div class="relative w-full h-[70vh] cursor-pointer">
 						<img src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`} alt="backdrop" />
 						<div
@@ -167,7 +168,7 @@
 							/>
 						</div>
 					</div>
-					{#each movies.slice(1) as movie}
+					{#each upcoming.slice(1) as movie}
 						<div class="px-2 cursor-pointer relative">
 							<h1 class="absolute z-40 bottom-0 font-extrabold">{movie.title}</h1>
 							<div
@@ -188,7 +189,7 @@
 			<div class="p-4 flex flex-col items-center gap-6">
 				<h2 class="text-3xl self-start font-bold text-yellow-400 mb-4">Top Rated Movies</h2>
 				<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
-					{#each movies as movie}
+					{#each topRated as movie}
 						<Card {movie} />
 					{/each}
 				</div>

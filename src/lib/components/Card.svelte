@@ -1,6 +1,6 @@
 <script lang="ts">
 	import placeholder from '$lib/assets/placeholder.jpeg';
-	import { Movie } from '$lib/clients/tmdb';
+	import type { Movie } from '$lib/clients/tmdb';
 
 	export let movie: Movie;
 
